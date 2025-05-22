@@ -16,10 +16,10 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
       filePath: z
         .string()
         .describe('The absolute path to the file you are suggesting changes to.'),
-      comment: z
+        comment: z
         .string()
         .describe(
-          'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }} ```sugerencia\n{{ colocar directamente las lineas y el cambio que debe realizar como ejemplo en el archivo }}\n```'
+          'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }} ```suggestion\n{{ directly include the lines and the code snippet that needs to be adjusted or replaced in the file }}\n```'
         ),
       startLine: z
         .number()
