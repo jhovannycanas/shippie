@@ -19,7 +19,7 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
       comment: z
         .string()
         .describe(
-          'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }} ```suggestion\n{{ direct replacement for the line or lines }}\n```'
+          'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }} ```sugerencia\n{{ colocar directamente las lineas y el cambio que debe realizar como ejemplo en el archivo }}\n```'
         ),
       startLine: z
         .number()
