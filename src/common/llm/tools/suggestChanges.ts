@@ -27,25 +27,30 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
         .describe('The line number to start the comment at.'),
       endLine: z.number().optional().describe('The line number to end the comment at.'),
     }),
-    execute: async ({ filePath, comment, startLine, endLine }): Promise<string> => {
-      const commentBody = `### Suggestion for \`${filePath}\`\n\n${comment}`
-      try {
-        const result = await platformProvider.postReviewComment({
-          filePath,
-          comment: commentBody,
-          startLine,
-          endLine,
-        })
-        logger.info(
-          `Suggestion for ${filePath} posted via tool. Result: ${result ?? 'No URL'}`
-        )
-        return result
-          ? `Suggestion posted successfully: ${result}`
-          : 'Suggestion posted, but no URL returned.'
-      } catch (error) {
-        logger.error(`Failed to post suggestion for ${filePath} via tool: ${error}`)
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        return `Error posting suggestion: ${errorMessage}`
-      }
-    },
+   // filepath: [suggestChanges.ts](http://_vscodecontentref_/0)
+execute: async ({ filePath, comment, startLine, endLine }): Promise<string> => {
+  // Construir el cuerpo del comentario con el bloque de sugerencia correctamente delimitado
+  const commentBody = `### Suggestion for \`${filePath}\`\n\nA short description of why the user MUST make the change:\n\n\`\`\`suggestion\n${comment}\n\`\`\``;
+  try {
+    // Publicar el comentario en la plataforma
+    const result = await platformProvider.postReviewComment({
+      filePath,
+      comment: commentBody,
+      startLine,
+      endLine,
+    });
+
+    logger.info(
+      `Suggestion for ${filePath} posted via tool. Result: ${result ?? 'No URL'}`
+    );
+
+    return result
+      ? `Suggestion posted successfully: ${result}`
+      : 'Suggestion posted, but no URL returned.';
+  } catch (error) {
+    logger.error(`Failed to post suggestion for ${filePath} via tool: ${error}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return `Error posting suggestion: ${errorMessage}`;
+  }
+},
   })
