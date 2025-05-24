@@ -18,33 +18,37 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
         .describe('The absolute path to the file you are suggesting changes to.'),
         comment: z
         .string()
-        .describe(
-`
-You are a code reviewer.
-
-Generate a review comment that MUST include:
-1. A **short explanation** of why the user MUST make the change (security, correctness, readability, best practices).
-2. A code suggestion in this exact format:
-
-\`\`\`suggestion
-// updated lines of code go here
-\`\`\`
-
-⚠️ You MUST include the exact lines to be replaced or adjusted in the \`suggestion\` block. Do not skip this step.
-
-The output must be formatted in GitHub Markdown and suitable to paste into a Jira comment.
-
-Example:
-This change MUST be applied to avoid exposing sensitive data. The API key should always be treated as a string and stored securely.
-\`\`\`suggestion
-const apiKey = process.env.API_KEY?.toString();
-\`\`\`
-
-Now generate a suggestion for the following code:
-\`\`\`js
-// Insert the code here
-\`\`\`
-`),
+        .describe(`
+          You are a technical code reviewer for any programming language.
+          
+          ⚠️ OUTPUT FORMAT — STRICTLY FOLLOW THIS STRUCTURE
+          
+          1. A one-line explanation that starts with:  
+             “This change MUST be applied…” followed by a short, clear reason (e.g., to fix a bug, improve performance, prevent a security issue, or comply with best practices).
+          
+          2. Then, a GitHub-style suggestion block with the corrected lines of code:
+          
+          \`\`\`suggestion
+          // corrected or improved lines here
+          \`\`\`
+          
+          📌 RULES:
+          
+          - The \`suggestion\` block is **mandatory**. Never skip it.
+          - If no changes are needed, return:
+            "No changes required."
+            \`\`\`suggestion
+            \`\`\`
+          - Do not include any headings (like ###), formatting, or extra code blocks — only the explanation line and one \`suggestion\` block.
+          - The suggestion must contain **complete** lines to be directly replaced in a GitHub diff or Jira comment.
+          
+          Now review the following code from **{{fileName}}** and provide your answer in the specified format:
+          
+          \`\`\`{{language}}
+          {{code}}
+          \`\`\`
+          `
+          ),
       startLine: z
         .number()
         .optional()

@@ -48,7 +48,7 @@ export const review = async (yargs: ReviewArgs): Promise<void> => {
 
   const model = createModel(yargs.modelString, modelCreationOptions)
   const prompt = await constructPrompt(filteredFiles, yargs.reviewLanguage)
-  logger.debug('Prompt:', prompt)
+  logger.info('Prompt:', prompt)
 
   try {
     const message = await runAgenticReview(
@@ -58,7 +58,7 @@ export const review = async (yargs: ReviewArgs): Promise<void> => {
       yargs.maxSteps
     )
 
-    logger.debug('Review response:', message)
+    logger.info('Review response:', message)
     logger.info('Review completed successfully.')
   } catch (error: unknown) {
     logger.error('Review failed with error:', error)

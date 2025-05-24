@@ -14,6 +14,7 @@ export const reviewAgent = async (
   onSummarySubmit?: () => void
   // biome-ignore lint/suspicious/noExplicitAny: fine
 ): Promise<GenerateTextResult<Record<string, any>, string>> => {
+  logger.debug('Starting review agent with prompt:', prompt)
   return generateText({
     model,
     prompt,
