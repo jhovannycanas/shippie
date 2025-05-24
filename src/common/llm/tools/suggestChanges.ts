@@ -19,8 +19,7 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
         comment: z
         .string()
         .describe(
-          'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }} \`\`\`suggestion\n{{ directly include the lines and the code snippet that needs to be adjusted or replaced in the file }}\n\`\`\`'
-        ),
+'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }}\n```{{ directly include the lines and the code snippet that needs to be adjusted or replaced in the file }}\n```'       ),
       startLine: z
         .number()
         .optional()
@@ -30,7 +29,7 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
    // filepath: [suggestChanges.ts](http://_vscodecontentref_/0)
 execute: async ({ filePath, comment, startLine, endLine }): Promise<string> => {
   // Construir el cuerpo del comentario con el bloque de sugerencia correctamente delimitado
-  const commentBody = `### Sugerencia para  \`${filePath}\`\n\n${comment}\n`;
+  const commentBody = `### Sugerencia para \`${filePath}\`\n\n\`\`\`\n${comment}\n\`\`\``;
   try {
     // Publicar el comentario en la plataforma
     const result = await platformProvider.postReviewComment({
