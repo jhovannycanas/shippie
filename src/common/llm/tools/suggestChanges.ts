@@ -20,25 +20,29 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
         .string()
         .describe(
 `
-Generate a code review comment with a required change using GitHub's \`suggestion\` format. The output must include:
+You are a code reviewer.
 
-1. A **clear and concise explanation** of why the change is **necessary** (use "MUST" to emphasize critical issues like security, correctness, performance, or best practices).
-2. A properly formatted code block using:
+Generate a review comment that MUST include:
+1. A **short explanation** of why the user MUST make the change (security, correctness, readability, best practices).
+2. A code suggestion in this exact format:
+
 \`\`\`suggestion
-// replacement code here
-\`\`\`
-3. Ensure the explanation and suggestion are clear enough to be pasted directly as a Jira comment for tracking and context.
-
-Example output:
-
-This change MUST be applied to prevent SQL injection vulnerabilities by avoiding string concatenation and using parameterized queries.
-\`\`\`suggestion
-return db.query("SELECT * FROM users WHERE id = ?", [id]);
+// updated lines of code go here
 \`\`\`
 
-Now apply this format to the following code:
+⚠️ You MUST include the exact lines to be replaced or adjusted in the \`suggestion\` block. Do not skip this step.
+
+The output must be formatted in GitHub Markdown and suitable to paste into a Jira comment.
+
+Example:
+This change MUST be applied to avoid exposing sensitive data. The API key should always be treated as a string and stored securely.
+\`\`\`suggestion
+const apiKey = process.env.API_KEY?.toString();
+\`\`\`
+
+Now generate a suggestion for the following code:
 \`\`\`js
-// Insert your code here
+// Insert the code here
 \`\`\`
 `),
       startLine: z
