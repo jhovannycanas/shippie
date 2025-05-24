@@ -71,6 +71,7 @@ export const runAgenticReview = async (
     logger.info(`Attempt ${attempt}/${maxRetries}...`)
     summaryToolCalled = false
 
+    logger.info(`Current prompt: ${currentPrompt}`)
     latestResult = await reviewAgent(currentPrompt, model, maxSteps, tools, () => {
       summaryToolCalled = true
     })

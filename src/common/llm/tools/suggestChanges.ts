@@ -57,7 +57,8 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
     }),
    // filepath: [suggestChanges.ts](http://_vscodecontentref_/0)
 execute: async ({ filePath, comment, startLine, endLine }): Promise<string> => {
-  // Construir el cuerpo del comentario con el bloque de sugerencia correctamente delimitado
+  logger.info(comment);
+    // Construir el cuerpo del comentario con el bloque de sugerencia correctamente delimitado
   const commentBody = `### Sugerencia para  \`${filePath}\`\n\n${comment}\n`;
   try {
     // Publicar el comentario en la plataforma
