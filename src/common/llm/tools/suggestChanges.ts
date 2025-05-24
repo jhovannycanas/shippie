@@ -19,7 +19,28 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
         comment: z
         .string()
         .describe(
-'The review comment for the actionable change or changes. It should be in the format of: {{ a short description of why the user MUST make the change }} ```suggestion\n{{ directly include the lines and the code snippet that needs to be adjusted or replaced in the file }}\n```'        ),
+`
+Generate a code review comment with a required change using GitHub's \`suggestion\` format. The output must include:
+
+1. A **clear and concise explanation** of why the change is **necessary** (use "MUST" to emphasize critical issues like security, correctness, performance, or best practices).
+2. A properly formatted code block using:
+\`\`\`suggestion
+// replacement code here
+\`\`\`
+3. Ensure the explanation and suggestion are clear enough to be pasted directly as a Jira comment for tracking and context.
+
+Example output:
+
+This change MUST be applied to prevent SQL injection vulnerabilities by avoiding string concatenation and using parameterized queries.
+\`\`\`suggestion
+return db.query("SELECT * FROM users WHERE id = ?", [id]);
+\`\`\`
+
+Now apply this format to the following code:
+\`\`\`js
+// Insert your code here
+\`\`\`
+`),
       startLine: z
         .number()
         .optional()
